@@ -51,6 +51,8 @@ void setupNormalesVariables() { // INICIALIZACION DE VARIABLES DE MODO NORMAL
   tens = tens_sl_2.getValueF();
   niu = dens_sl_2.getValueF();
   amp = amp_sl_2.getValueF();
+  lon = 40;
+  pointRadius = 20;
 }
 
 void setupGameVariables() {
