@@ -51,6 +51,8 @@ void setupNormalesVariables() { // INICIALIZACION DE VARIABLES DE MODO NORMAL
   tens = tens_sl_2.getValueF();
   niu = dens_sl_2.getValueF();
   amp = amp_sl_2.getValueF();
+  lon = 40;
+  pointRadius = 20;
 }
 
 void setupGameVariables() {
@@ -371,7 +373,7 @@ void gameDrawGUI() { // INTERFAZ GRAFICA EN LA PANTALLA DEL JUEGO
 
     UserNScore[1][pI] = String.valueOf(puntaje);
     auxPuntaje = String.valueOf(puntaje);
-    
+
     startTimer.countUp();
     Juego.noLoop();
     Juego.setVisible(false);
@@ -614,13 +616,13 @@ void NormalWaveRefresh() { // ACTUALIZACION DE LA ONDA DE MODO NORMAL
   frecang = TWO_PI*frec;
 
   for (int i = 0; i<lon; i++) {//propagar onda incidente, se mueve de izq. a derecha
-    double onInc = (amp * Math.sin(Math.toRadians(k*(cuerda[i][0]-xInicial)
+    double onInc = (amp * Math.sin(Math.toRadians(k*(cuerda[lon-i-1][0]-xInicial)
       + frecang*(millis()))));
-    inY[lon-i-1] = (int) onInc;
+    inY[i] = (int) onInc;
 
-    double onRef = (amp * Math.sin(Math.toRadians(k*(cuerda[i][0]-xInicial) -
+    double onRef = (amp * Math.sin(Math.toRadians(k*(cuerda[lon-i-1][0]-xInicial) -
       frecang*(millis()))));
-    reY[lon-i-1] = (int) onRef;
+    reY[i] = (int) onRef;
 
     int onda = (int)(onInc + onRef);
 
@@ -628,46 +630,44 @@ void NormalWaveRefresh() { // ACTUALIZACION DE LA ONDA DE MODO NORMAL
   }
 }
 
-void leaderboard(){
-  String top1, top2, top3, top_pI, top , p1, p2, p3, p_pI, p;
-  
+void leaderboard() {
+  String top1, top2, top3, top_pI, top, p1, p2, p3, p_pI, p;
+
   PFont f = createFont("Calibri Bold", 50);
   Leaderboard.textFont(f);
   Leaderboard.textSize(50);
-  
+
   top1=UserNScore[0][0];
   top2=UserNScore[0][1];
   top3=UserNScore[0][2];
   top_pI=UserNScore[0][pI];
   top=UserNScore[0][pos];
-  
+
   p1=UserNScore[1][0];
   p2=UserNScore[1][1];
   p3=UserNScore[1][2];
   p_pI=UserNScore[1][pI];
   p=UserNScore[1][pos];
-  
+
   Leaderboard.text("1. "+top1, 340, 267);
   Leaderboard.text("2. "+top2, 340, 353);
   Leaderboard.text("3. "+top3, 340, 437);
   Leaderboard.text(""+(pI+1)+". "+top_pI, 340, 540);
-  
+
   Leaderboard.text(""+p1, 800, 267);
   Leaderboard.text(""+p2, 800, 353);
   Leaderboard.text(""+p3, 800, 437);
   Leaderboard.text(""+p_pI, 800, 540);
-  
+
   PFont s = createFont("Calibri Bold", 24);
   Leaderboard.textFont(s);
   Leaderboard.textSize(24);
-  
+
   Leaderboard.text(""+(pos+1)+". "+top, 1040, 630);
   Leaderboard.text(""+p, 1040, 680);
-  
-  
 }
 
-int calcTime(int aux){
+int calcTime(int aux) {
 
   return aux;
 }

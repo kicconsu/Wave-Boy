@@ -241,6 +241,8 @@ public void setupNormalesVariables() { // INICIALIZACION DE VARIABLES DE MODO NO
   tens = tens_sl_2.getValueF();
   niu = dens_sl_2.getValueF();
   amp = amp_sl_2.getValueF();
+  lon = 40;
+  pointRadius = 20;
 }
 
 public void setupGameVariables() {
@@ -561,7 +563,7 @@ public void gameDrawGUI() { // INTERFAZ GRAFICA EN LA PANTALLA DEL JUEGO
 
     UserNScore[1][pI] = String.valueOf(puntaje);
     auxPuntaje = String.valueOf(puntaje);
-    
+
     startTimer.countUp();
     Juego.noLoop();
     Juego.setVisible(false);
@@ -804,13 +806,13 @@ public void NormalWaveRefresh() { // ACTUALIZACION DE LA ONDA DE MODO NORMAL
   frecang = TWO_PI*frec;
 
   for (int i = 0; i<lon; i++) {//propagar onda incidente, se mueve de izq. a derecha
-    double onInc = (amp * Math.sin(Math.toRadians(k*(cuerda[i][0]-xInicial)
+    double onInc = (amp * Math.sin(Math.toRadians(k*(cuerda[lon-i-1][0]-xInicial)
       + frecang*(millis()))));
-    inY[lon-i-1] = (int) onInc;
+    inY[i] = (int) onInc;
 
-    double onRef = (amp * Math.sin(Math.toRadians(k*(cuerda[i][0]-xInicial) -
+    double onRef = (amp * Math.sin(Math.toRadians(k*(cuerda[lon-i-1][0]-xInicial) -
       frecang*(millis()))));
-    reY[lon-i-1] = (int) onRef;
+    reY[i] = (int) onRef;
 
     int onda = (int)(onInc + onRef);
 
@@ -818,46 +820,44 @@ public void NormalWaveRefresh() { // ACTUALIZACION DE LA ONDA DE MODO NORMAL
   }
 }
 
-public void leaderboard(){
-  String top1, top2, top3, top_pI, top , p1, p2, p3, p_pI, p;
-  
+public void leaderboard() {
+  String top1, top2, top3, top_pI, top, p1, p2, p3, p_pI, p;
+
   PFont f = createFont("Calibri Bold", 50);
   Leaderboard.textFont(f);
   Leaderboard.textSize(50);
-  
+
   top1=UserNScore[0][0];
   top2=UserNScore[0][1];
   top3=UserNScore[0][2];
   top_pI=UserNScore[0][pI];
   top=UserNScore[0][pos];
-  
+
   p1=UserNScore[1][0];
   p2=UserNScore[1][1];
   p3=UserNScore[1][2];
   p_pI=UserNScore[1][pI];
   p=UserNScore[1][pos];
-  
+
   Leaderboard.text("1. "+top1, 340, 267);
   Leaderboard.text("2. "+top2, 340, 353);
   Leaderboard.text("3. "+top3, 340, 437);
   Leaderboard.text(""+(pI+1)+". "+top_pI, 340, 540);
-  
+
   Leaderboard.text(""+p1, 800, 267);
   Leaderboard.text(""+p2, 800, 353);
   Leaderboard.text(""+p3, 800, 437);
   Leaderboard.text(""+p_pI, 800, 540);
-  
+
   PFont s = createFont("Calibri Bold", 24);
   Leaderboard.textFont(s);
   Leaderboard.textSize(24);
-  
+
   Leaderboard.text(""+(pos+1)+". "+top, 1040, 630);
   Leaderboard.text(""+p, 1040, 680);
-  
-  
 }
 
-public int calcTime(int aux){
+public int calcTime(int aux) {
 
   return aux;
 }
@@ -921,9 +921,9 @@ class TimerPuntaje {
  * designer and care should be taken when editing this file.
  * Only add/edit code inside the event handlers i.e. only
  * use lines between the matching comment tags. e.g.
-
+ 
  void myBtnEvents(GButton button) { //_CODE_:button1:12356:
-     // It is safe to enter your event code here  
+ // It is safe to enter your event code here
  } //_CODE_:button1:12356:
  
  * Do not rename this tab!
@@ -1022,35 +1022,35 @@ public void despau_simu(GImageButton source, GEvent event) { //_CODE_:despau:986
 } //_CODE_:despau:986299:
 
 synchronized public void Instru_draw(PApplet appc, GWinData data) { //_CODE_:Instru:566139:
-  try{
-  Instru.image(CSJ1, 0, 0);
-  b_jugar.setVisible(true);
-  if (r==0) {
-    izq.setVisible(false);
-  }
-  if (vv==1) {//Mostrar instrucciones 2
-    Instru.image(CSJ2, 0, 0);
-    der.setVisible(true);
-    if (r==1||r==2) {
-      izq.setVisible(true);
-    }
-  }
-  if (vv==2) { //Mostrar instrucciones 3
-    Instru.image(CSJ3, 0, 0);
-    if (r==1||r==2) {
-      izq.setVisible(true);
-    }
-    if (r==2) {
-      der.setVisible(false);
-    }
-  }
-  if (vv==0) { //Mostrar instrucciones 1
+  try {
     Instru.image(CSJ1, 0, 0);
-    izq.setVisible(false);
-    der.setVisible(true);
+    b_jugar.setVisible(true);
+    if (r==0) {
+      izq.setVisible(false);
+    }
+    if (vv==1) {//Mostrar instrucciones 2
+      Instru.image(CSJ2, 0, 0);
+      der.setVisible(true);
+      if (r==1||r==2) {
+        izq.setVisible(true);
+      }
+    }
+    if (vv==2) { //Mostrar instrucciones 3
+      Instru.image(CSJ3, 0, 0);
+      if (r==1||r==2) {
+        izq.setVisible(true);
+      }
+      if (r==2) {
+        der.setVisible(false);
+      }
+    }
+    if (vv==0) { //Mostrar instrucciones 1
+      Instru.image(CSJ1, 0, 0);
+      izq.setVisible(false);
+      der.setVisible(true);
+    }
   }
-  }catch(NullPointerException e){
-    
+  catch(NullPointerException e) {
   }
 } //_CODE_:Instru:566139:
 
@@ -1276,41 +1276,40 @@ public void pun_to_ldb(GImageButton source, GEvent event) { //_CODE_:b_ldb:34986
 
   int a1, a2, a3, t=0, tt = 1;
   String b1, b2, b3;
-  
+
   for (int i = 0; i<499; i++) {
-    for(int j = 1; j<499-i; j++){
-      
+    for (int j = 1; j<499-i; j++) {
+
       a1 = Integer.valueOf(UserNScore[1][j]);
       a2 = Integer.valueOf(UserNScore[1][j+1]);
-      
+
       b1 = UserNScore[0][j];
       b2 = UserNScore[0][j+1];
-      
-      if(a1<a2){
-        
-        a3=a1;        
+
+      if (a1<a2) {
+
+        a3=a1;
         UserNScore[1][j]=String.valueOf(a2);
         UserNScore[1][j+1]=String.valueOf(a3);
-        
+
         b3=b1;
         UserNScore[0][j]=b2;
         UserNScore[0][j+1]=b3;
       }
     }
   }
-  
-  while(t<499 && tt == 1){
-   
-    if(Integer.valueOf(UserNScore[1][t]) == Integer.valueOf(auxPuntaje)){
+
+  while (t<499 && tt == 1) {
+
+    if (Integer.valueOf(UserNScore[1][t]) == Integer.valueOf(auxPuntaje)) {
       pos = t;
       tt = 2;
-      
     }
-    
+
     t++;
   }
-  
-  
+
+
 
 
 
@@ -1403,8 +1402,8 @@ synchronized public void Modos_draw(PApplet appc, GWinData data) { //_CODE_:Modo
 public void mod_normal(GImageButton source, GEvent event) { //_CODE_:norma:851502:
   bombo.trigger();
 
-  setupSimWave();
   setupNormalesVariables();
+  setupSimWave();
 
   Modos.setVisible(false);
   Modos.noLoop();
@@ -1491,10 +1490,10 @@ public void adduser(GTextField source, GEvent event) { //_CODE_:username:362377:
 
 public void Agregar_y_Jugar(GImageButton source, GEvent event) { //_CODE_:agUser:927073:
   bombo.trigger();
-  if(username.getText().isBlank()){
-      UserNScore[0][pI]="Jugador No. "+(pI+1);
-  }else{
-      UserNScore[0][pI]=username.getText();
+  if (username.getText().isBlank()) {
+    UserNScore[0][pI]="Jugador No. "+(pI+1);
+  } else {
+    UserNScore[0][pI]=username.getText();
   }
   username.setText("");
 
@@ -1508,9 +1507,8 @@ public void Agregar_y_Jugar(GImageButton source, GEvent event) { //_CODE_:agUser
 
 synchronized public void leaderboard_draw(PApplet appc, GWinData data) { //_CODE_:Leaderboard:244264:
   Leaderboard.image(ldb, 0, 0);
-  
+
   leaderboard();
-  
 } //_CODE_:Leaderboard:244264:
 
 public void ldb_to_menu(GImageButton source, GEvent event) { //_CODE_:b_menu:614315:
@@ -1525,9 +1523,9 @@ public void ldb_to_menu(GImageButton source, GEvent event) { //_CODE_:b_menu:614
 
 
 
-// Create all the GUI controls. 
+// Create all the GUI controls.
 // autogenerated do not edit
-public void createGUI(){
+public void createGUI() {
   G4P.messagesEnabled(false);
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
@@ -1789,70 +1787,70 @@ public void createGUI(){
   Leaderboard.loop();
 }
 
-// Variable declarations 
+// Variable declarations
 // autogenerated do not edit
-GImageButton imgButton1; 
-GImageButton imgButton2; 
-GImageButton ayuda; 
+GImageButton imgButton1;
+GImageButton imgButton2;
+GImageButton ayuda;
 GWindow Simu;
-GCustomSlider frec_sl; 
-GCustomSlider lon_sl; 
-GCustomSlider amp_sl; 
-GImageToggleButton mostIncid; 
-GImageToggleButton mostRefle; 
-GImageButton menuuu; 
-GImageButton pau; 
-GImageButton reset; 
-GImageButton despau; 
+GCustomSlider frec_sl;
+GCustomSlider lon_sl;
+GCustomSlider amp_sl;
+GImageToggleButton mostIncid;
+GImageToggleButton mostRefle;
+GImageButton menuuu;
+GImageButton pau;
+GImageButton reset;
+GImageButton despau;
 GWindow Instru;
-GImageButton der; 
-GImageButton izq; 
-GImageButton b_jugar; 
+GImageButton der;
+GImageButton izq;
+GImageButton b_jugar;
 GWindow Juego;
-GButton DecTension; 
-GLabel label1; 
-GTextArea t_tens; 
-GButton b_tens; 
-GButton IncTension; 
-GLabel label2; 
-GButton DecNiu; 
-GLabel label3; 
-GTextArea t_niu; 
-GButton b_niu; 
-GButton IncNiu; 
-GLabel label4; 
-GButton DecAmpl; 
-GLabel label5; 
-GTextArea t_amp; 
-GButton b_amp; 
-GButton IncAmpl; 
-GLabel label6; 
-GImageButton menuu; 
-GImageButton verify; 
+GButton DecTension;
+GLabel label1;
+GTextArea t_tens;
+GButton b_tens;
+GButton IncTension;
+GLabel label2;
+GButton DecNiu;
+GLabel label3;
+GTextArea t_niu;
+GButton b_niu;
+GButton IncNiu;
+GLabel label4;
+GButton DecAmpl;
+GLabel label5;
+GTextArea t_amp;
+GButton b_amp;
+GButton IncAmpl;
+GLabel label6;
+GImageButton menuu;
+GImageButton verify;
 GWindow Puntaje;
-GImageButton b_menuPuntaje; 
-GImageButton b_jugarPuntaje; 
-GImageButton b_ldb; 
+GImageButton b_menuPuntaje;
+GImageButton b_jugarPuntaje;
+GImageButton b_ldb;
 GWindow Ayuda;
-GImageButton dere; 
-GImageButton izqui; 
-GImageButton menub; 
+GImageButton dere;
+GImageButton izqui;
+GImageButton menub;
 GWindow Modos;
-GImageButton norma; 
-GImageButton simu; 
+GImageButton norma;
+GImageButton simu;
 GWindow Normales;
-GImageButton normal2menu; 
-GCustomSlider armo_sl; 
-GCustomSlider tens_sl_2; 
-GImageButton despau_norm; 
-GImageButton pau_norm; 
-GCustomSlider dens_sl_2; 
-GCustomSlider amp_sl_2; 
+GImageButton normal2menu;
+GCustomSlider armo_sl;
+GCustomSlider tens_sl_2;
+GImageButton despau_norm;
+GImageButton pau_norm;
+GCustomSlider dens_sl_2;
+GCustomSlider amp_sl_2;
 GWindow UserGUI;
-GTextField username; 
-GImageButton agUser; 
+GTextField username;
+GImageButton agUser;
 GWindow Leaderboard;
-GImageButton b_menu; 
+GImageButton b_menu;
 
 
   public void settings() { size(1280, 720); }
