@@ -1,0 +1,61 @@
+import g4p_controls.*;
+
+
+int[][] cuerda;
+
+double mas=1, lon=75, tens=1, frec=1, amp = 60;
+int pMax = 200, pointRadius = 10, seg=0;
+double niu, lamb, vel, frecang, k;
+
+public void setup() {
+  size(1080,720 );
+  background(20);
+  
+  createGUI();
+
+  //se rellena el vector de cuerda
+  //cada elemento es un vector que contiene [posX, posY]
+  cuerda = new int[pMax][2];
+  cuerda[0] = new int[]{30, height/2};
+  for (int i = 1; i<pMax; i++) {
+    int previousX = cuerda[i-1][0];
+    cuerda[i] = new int[]{previousX+pointRadius, height/2};
+    //se inicializa la cuerda tensa de forma recta, en la mitad de la pantalla
+  }
+}
+
+public void draw() {
+  background(20);
+  strokeWeight(2);
+  for (int i=0; i<lon; i++) {
+    int[] punto = cuerda[i];
+    ellipse(punto[0], punto[1], pointRadius, pointRadius);
+  }
+
+  refresh();
+}
+
+void refresh() {
+  niu=mas/lon;
+  //g/m
+  vel=sqrt((float) (tens/ niu));
+  //m/s
+  lamb=vel/frec;
+  //lamb = m
+  k = (2*Math.PI)/lamb;
+  //k = rad/m
+  frecang=vel*k;
+  //w = m/s * rad/m
+  //w = rad/s
+  //se calculan los valores de las propiedades como 
+  
+  seg++;
+  
+  for(int i = 0; i<lon; i++){
+    int[] punto = cuerda[i];
+    cuerda[i][1] = height/2 + ((int) (amp * Math.sin(Math.toRadians(k*punto[0])) * Math.sin(Math.toRadians(frecang*seg))));
+    //                                 y(x, t) = A * sin(k * x) * sin(w * t)
+    println(niu);
+  }
+  
+}
